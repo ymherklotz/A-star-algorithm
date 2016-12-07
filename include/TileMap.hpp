@@ -7,17 +7,15 @@
 
 class TileMap : public sf::Drawable, public sf::Transformable {
 public:
-    TileMap();
-    ~TileMap();
+	TileMap();
+	~TileMap();
 
-    bool load(const std::string& txt_file, const sf::Vector2f& txt_size,
-              const sf::Vector2f& tile_size, const int* tiles,
-              unsigned int width, unsigned int height);
+	bool load(const std::string& txt_file, const sf::Vector2f& txt_size, const sf::Vector2f& tile_size, const int *tiles, unsigned int width, unsigned int height);
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-    sf::VertexArray m_vertices;
-    sf::Texture m_texture;
+	sf::VertexArray m_vertices;
+	sf::Texture m_texture;
 };
 
 #endif
