@@ -1,4 +1,4 @@
-#include "../include/TileMap.hpp"
+#include "tilemap.hpp"
 
 TileMap::TileMap() {
 }

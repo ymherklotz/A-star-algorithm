@@ -7,7 +7,8 @@
  *
  */
 
-#include "../include/TileMap.hpp"
+#include "tilemap.hpp"
+#include "astar.hpp"
 
 #include <SFML/Graphics.hpp>
 
