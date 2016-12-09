@@ -28,8 +28,6 @@ private:
 	void insert_queue(const T& element, const unsigned int& loc);
 
 	T remove_queue(const unsigned int& loc);
-
-	void delete_queue();
 };
 
 template<typename T>
