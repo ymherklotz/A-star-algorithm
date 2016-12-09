@@ -18,6 +18,10 @@ public:
 	// TODO These constructors have to change
 	Node();
 
+	void set_f(int i) {
+		f_score = i;
+	}
+
 	// overloading operators for ease of use.
 	friend bool operator<(const Node& n1, const Node& n2);
 	friend bool operator==(const Node& n1, const Node& n2);
