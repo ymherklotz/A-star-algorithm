@@ -13,17 +13,18 @@ private:
 class Node {
 public:
 	Node();
+	Node(Node *prev_node);
+	Node(Node *prev_node, int g);
 	~Node();
 
 	// overloading operators for ease of use.
 	friend bool operator<(const Node& n1, const Node& n2);
 	friend bool operator==(const Node& n1, const Node& n2);
-	friend std::ostream& operator<<(std::ostream& out, const Node& n2);
-
-	inline friend bool operator>(const Node& n1, const Node& n2);
-	inline friend bool operator<=(const Node& n1, const Node& n2);
-	inline friend bool operator>=(const Node& n1, const Node& n2);
-	inline friend bool operator!=(const Node& n1, const Node& n2);
+	friend bool operator>(const Node& n1, const Node& n2);
+	friend bool operator<=(const Node& n1, const Node& n2);
+	friend bool operator>=(const Node& n1, const Node& n2);
+	friend bool operator!=(const Node& n1, const Node& n2);
+	friend std::ostream& operator<<(std::ostream& out, const Node& n);
 private:
 	// pointer to previous node so that I can backtrack without using recursion.
 	Node *previous_node;
