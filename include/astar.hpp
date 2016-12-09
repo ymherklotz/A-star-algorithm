@@ -17,9 +17,6 @@ class Node {
 public:
 	// TODO These constructors have to change
 	Node();
-	Node(Node *prev_node);
-	Node(Node *prev_node, int g);
-	~Node();
 
 	// overloading operators for ease of use.
 	friend bool operator<(const Node& n1, const Node& n2);

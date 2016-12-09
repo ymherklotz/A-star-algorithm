@@ -15,19 +15,22 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	PriorityQueue<int> pq;
+	PriorityQueue<Node> pq;
 
-	pq.push(5);
-	pq.push(2);
-	pq.push(3);
-	pq.push(8);
-	pq.push(19);
-	pq.push(1);
+	Node n, n2, n3, n4, n5, n6;
+	pq.push(n);
+	pq.push(n2);
+	pq.push(n3);
+	pq.push(n4);
+	pq.push(n5);
+	pq.push(n6);
 
-	cout << pq.pop() << " " << pq.pop() << " " << pq.pop() << endl;
+	cout << "Node in first queue: " << pq.pop() << endl;
+
 	return 0;
 }
