@@ -17,6 +17,9 @@ public:
 	// pops the first element from the queue and removes it while returning
 	// it
 	T pop();
+
+	// returns the lowest priority item
+	T get_first();
 private:
 	// size of the current queue
 	unsigned int size;
@@ -67,6 +70,11 @@ T PriorityQueue<T>::pop() {
 		resize_queue(0.5);
 
 	return remove_queue(0);
+}
+
+template<typename T>
+T PriorityQueue<T>::get_first() {
+	return priority_array[0];
 }
 
 template<typename T>
@@ -121,4 +129,4 @@ T PriorityQueue<T>::remove_queue(const unsigned int& loc) {
 	return element;
 }
 
-#endif
+#endif // PRIORITY_QUEUE_HPP

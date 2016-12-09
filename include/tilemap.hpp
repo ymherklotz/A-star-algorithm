@@ -28,4 +28,4 @@ private:
 	sf::Texture m_texture;
 };
 
-#endif
+#endif // TILEMAP_HPP
