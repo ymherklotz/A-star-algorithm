@@ -34,10 +34,7 @@ private:
 
 template<typename T>
 PriorityQueue<T>::PriorityQueue() : size(0), capacity(1) {
-	T *tmp_head = new T;
-
-
-	priority_array = tmp_head;
+	priority_array = new T;
 }
 
 template<typename T>
