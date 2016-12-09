@@ -1,5 +1,8 @@
 #include "astar.hpp"
 
+AStar::AStar() {
+}
+
 Node::Node() : previous_node(NULL), f_score(-1), g_score(0), h_score(-1) {
 	update_f_score();
 }

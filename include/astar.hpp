@@ -10,6 +10,7 @@
 // TODO add constructors and functions to calculate heuristics etc..
 class AStar {
 public:
+	AStar();
 private:
 };
 

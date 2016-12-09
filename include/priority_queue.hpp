@@ -6,7 +6,9 @@
 template<typename T>
 class PriorityQueue {
 public:
+	// creates a new object of type T
 	PriorityQueue();
+	// deletes the array priority_array so that there are no memory leaks
 	~PriorityQueue();
 
 	// pushes element to the queue which is sorted by smallest element first
@@ -23,10 +25,14 @@ private:
 	// array that will represent the priority queue
 	T *priority_array;
 
+	// resize the queue's array accordingly by some factor
 	void resize_queue(double factor);
 
+	// insert and element into the queue
+	// this assumes that the capacity is larger than the size
 	void insert_queue(const T& element, const unsigned int& loc);
 
+	// removes an element from the queue
 	T remove_queue(const unsigned int& loc);
 };
 
