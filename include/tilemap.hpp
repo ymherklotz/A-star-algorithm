@@ -11,7 +11,6 @@
 class TileMap : public sf::Drawable, public sf::Transformable {
 public:
 	TileMap();
-	~TileMap();
 
 	// loads the text file and then creates the vertex array and the assigns
 	// the texture to the vertex array. It also therefore defines the size

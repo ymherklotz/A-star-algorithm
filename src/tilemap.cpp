@@ -3,9 +3,6 @@
 TileMap::TileMap() {
 }
 
-TileMap::~TileMap() {
-}
-
 bool TileMap::load(const std::string& txt_file, const sf::Vector2f& txt_size, const sf::Vector2f& tile_size, const int *tiles, unsigned int width, unsigned int height) {
 	// load texture from the file
 	if(!m_texture.loadFromFile(txt_file))
