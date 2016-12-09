@@ -9,6 +9,7 @@
 
 #include "tilemap.hpp"
 #include "astar.hpp"
+#include "priority_queue.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -18,12 +19,15 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	Node n1(NULL, 5);
-	Node n2(NULL, 2);
+	PriorityQueue<int> pq;
 
-	cout << "n1 > n2: " << (n1 > n2) << endl;
-	cout << "n1 < n2: " << (n1 < n2) << endl;
-	cout << "n1 <= n2: " << (n1 <= n2) << endl;
-	cout << "n1 >= n2: " << (n1 >= n2) << endl;
+	pq.push(5);
+	pq.push(2);
+	pq.push(3);
+	pq.push(8);
+	pq.push(19);
+	pq.push(1);
+
+	cout << pq.pop() << " " << pq.pop() << " " << pq.pop() << endl;
 	return 0;
 }
