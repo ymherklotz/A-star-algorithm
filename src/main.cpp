@@ -7,14 +7,10 @@
  *
  */
 
-#include "tilemap.hpp"
 #include "astar.hpp"
 #include "priority_queue.hpp"
 
-#include <SFML/Graphics.hpp>
-
 #include <iostream>
-#include <cstdlib>
 #include <vector>
 
 using namespace std;
