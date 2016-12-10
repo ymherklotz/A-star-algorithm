@@ -3,13 +3,19 @@
 
 #include <ostream>
 
+class AStar;
+
 class Node {
+	friend AStar;
 public:
 	Node();
 
-	void set_f(int i) {
-		f_score = i;
-	}
+	void set_x(int x_in);
+	void set_y(int y_in);
+	void set_h_score(int h);
+	void set_g_score(int g);
+
+	void compute_f();
 
 	// overloading operators for ease of use.
 	friend bool operator<(const Node& n1, const Node& n2);
@@ -31,7 +37,7 @@ private:
 	int f_score;
 // path length to get to that node.
 	int g_score;
-// heulistic length to destination.
+// heuristic length to destination.
 	int h_score;
 
 // the x and y coordinates of the node in the grid
