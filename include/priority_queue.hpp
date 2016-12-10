@@ -30,6 +30,8 @@ public:
 	// removes item from queue
 	void remove_item(const T& item);
 
+	void clear();
+
 	// return element at position;
 	const T& at(const unsigned int& i) const;
 
@@ -110,6 +112,16 @@ int PriorityQueue<T>::get_index(const T& item) {
 template<typename T>
 void PriorityQueue<T>::remove_item(const T& item) {
 	remove_queue(get_index(item));
+}
+
+template<typename T>
+void PriorityQueue<T>::clear() {
+	T *tmp = new T;
+
+	size = 0;
+	capacity = 1;
+	delete[] priority_array;
+	priority_array = tmp;
 }
 
 template<typename T>

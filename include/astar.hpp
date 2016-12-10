@@ -16,6 +16,10 @@ class AStar {
 public:
 	AStar();
 	AStar(int *curr_graph, const unsigned int& width, const unsigned int& height);
+
+	bool start_algorithm(int *curr_graph, const unsigned int& width, const unsigned int& height);
+
+	void recreate_path(Node n);
 private:
 	PriorityQueue<Node> open_set;
 	std::vector<Node> closed_set;

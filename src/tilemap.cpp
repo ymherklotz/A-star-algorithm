@@ -29,10 +29,10 @@ bool TileMap::load(const std::string& txt_file, const sf::Vector2f& txt_size, co
 			quad[3].position = sf::Vector2f(i * tile_size.x, (j + 1) * tile_size.y);
 
 			// define texture coordinates.
-			quad[0].texCoords = sf::Vector2f(tile_number * txt_size.x, 0);
-			quad[1].texCoords = sf::Vector2f((tile_number + 1) * txt_size.x, 0);
-			quad[2].texCoords = sf::Vector2f((tile_number + 1) * txt_size.x, txt_size.y);
-			quad[3].texCoords = sf::Vector2f(tile_number * txt_size.x, txt_size.y);
+			quad[0].texCoords = sf::Vector2f((tile_number % 4) * txt_size.x, (tile_number / 4) * txt_size.y);
+			quad[1].texCoords = sf::Vector2f((tile_number % 4 + 1) * txt_size.x, (tile_number / 4) * txt_size.y);
+			quad[2].texCoords = sf::Vector2f((tile_number % 4 + 1) * txt_size.x, (tile_number / 4 + 1) * txt_size.y);
+			quad[3].texCoords = sf::Vector2f((tile_number % 4) * txt_size.x, (tile_number / 4 + 1) * txt_size.y);
 		}
 	return true;
 }

@@ -1,6 +1,6 @@
 #include "node.hpp"
 
-Node::Node() : previous_node(NULL), f_score(-1), g_score(0), h_score(-1), x(0), y(0) {
+Node::Node() : previous_node(NULL), f_score(-1), g_score(0), h_score(-1), x(-1), y(-1) {
 }
 
 bool operator<(const Node& n1, const Node& n2) {
@@ -10,7 +10,7 @@ bool operator<(const Node& n1, const Node& n2) {
 }
 
 bool operator==(const Node& n1, const Node& n2) {
-	return n1.x == n2.x && n1.y == n2.y;
+	return (n1.x == n2.x) && (n1.y == n2.y);
 }
 
 bool operator>(const Node& n1, const Node& n2) {
