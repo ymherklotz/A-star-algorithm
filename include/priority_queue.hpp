@@ -20,6 +20,20 @@ public:
 
 	// returns the lowest priority item
 	T get_first();
+
+	// check if item is in queue
+	bool check_item(const T& item);
+
+	// gets index of item
+	int get_index(const T& item);
+
+	// removes item from queue
+	void remove_item(const T& item);
+
+	// return element at position;
+	const T& at(const unsigned int& i) const;
+
+	const T& operator[](const unsigned int& i) const;
 private:
 	// size of the current queue
 	unsigned int size;
@@ -75,6 +89,37 @@ T PriorityQueue<T>::pop() {
 template<typename T>
 T PriorityQueue<T>::get_first() {
 	return priority_array[0];
+}
+
+template<typename T>
+bool PriorityQueue<T>::check_item(const T& item) {
+	for(unsigned int i = 0; i < size; ++i)
+		if(priority_array[i] == item)
+			return true;
+	return false;
+}
+
+template<typename T>
+int PriorityQueue<T>::get_index(const T& item) {
+	for(unsigned int i = 0; i < size; ++i)
+		if(priority_array[i] == item)
+			return i;
+	return -1;
+}
+
+template<typename T>
+void PriorityQueue<T>::remove_item(const T& item) {
+	remove_queue(get_index(item));
+}
+
+template<typename T>
+const T& PriorityQueue<T>::at(const unsigned int& i) const {
+	return priority_array[i];
+}
+
+template<typename T>
+const T& PriorityQueue<T>::operator[](const unsigned int& i) const {
+	return priority_array[i];
 }
 
 template<typename T>

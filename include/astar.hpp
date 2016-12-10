@@ -9,11 +9,12 @@
 
 // defines the number of nodes one can go to
 // we don't need this as we will have the queues
-//#define NEIGHBOUR_NUM 4
+#define NEIGHBOUR_NUM 4
 
 // TODO add constructors and functions to calculate heuristics etc..
 class AStar {
 public:
+	AStar();
 	AStar(int *curr_graph, const unsigned int& width, const unsigned int& height);
 private:
 	PriorityQueue<Node> open_set;
@@ -22,14 +23,20 @@ private:
 	int *graph;
 	int graph_width;
 	int graph_height;
+	int path_length;
 
-	Node current_node, start_node, end_node;
+	Node start_node, end_node;
 
-	void set_start_end();
+	bool start_algorithm();
 
-	Node get_neighbour(const Node& n_in, const int& neighbour_num);
+	Node get_neighbour(Node& n_in, const int& neighbour_num);
 
 	void calc_heuristic(Node& n);
+	void calc_f(Node& n);
+
+	bool check_item_vec(const Node& n);
+	int get_index_vec(const Node& n);
+	void remove_from_vec(const Node& n);
 };
 
 #endif // ASTAR_HPP

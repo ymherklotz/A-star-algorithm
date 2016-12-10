@@ -10,13 +10,6 @@ class Node {
 public:
 	Node();
 
-	void set_x(int x_in);
-	void set_y(int y_in);
-	void set_h_score(int h);
-	void set_g_score(int g);
-
-	void compute_f();
-
 	// overloading operators for ease of use.
 	friend bool operator<(const Node& n1, const Node& n2);
 	friend bool operator==(const Node& n1, const Node& n2);
