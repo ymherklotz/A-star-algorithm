@@ -3,8 +3,11 @@
 
 #include <iostream>
 
+class AStar;
+
 template<typename T>
 class PriorityQueue {
+	friend AStar;
 public:
 	// creates a new object of type T
 	PriorityQueue();

@@ -19,28 +19,31 @@ public:
 
 	bool start_algorithm(int *curr_graph, const unsigned int& width, const unsigned int& height);
 
-	void recreate_path(Node n);
+	void recreate_path(Node *n);
 private:
-	PriorityQueue<Node> open_set;
-	std::vector<Node> closed_set;
+	PriorityQueue<Node *> open_set;
+	std::vector<Node *> closed_set;
 
 	int *graph;
 	int graph_width;
 	int graph_height;
 	int path_length;
 
-	Node start_node, end_node;
+	Node *start_node, *end_node;
 
 	bool start_algorithm();
 
-	Node get_neighbour(Node& n_in, const int& neighbour_num);
+	Node *get_neighbour(Node *n_in, const int& neighbour_num);
 
-	void calc_heuristic(Node& n);
-	void calc_f(Node& n);
+	void calc_heuristic(Node *n);
+	void calc_f(Node *n);
 
-	bool check_item_vec(const Node& n);
-	int get_index_vec(const Node& n);
-	void remove_from_vec(const Node& n);
+	bool check_item_vec(Node *n);
+	int get_index_vec(Node *n);
+	void remove_from_vec(Node *n);
+
+	bool check_xy_vec(Node *n_out);
+	bool check_xy_queue(Node *n_out);
 };
 
 #endif // ASTAR_HPP
