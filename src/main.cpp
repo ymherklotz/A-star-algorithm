@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 	const int start_x = 9;
 	const int start_y = 13;
 
-	const int end_x = 89;
+	const int end_x = 76;
 	const int end_y = 38;
 
 	// print out that information.
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 				tiles[i] = 0;
 
 		tiles[start_y * cols + start_x] = 3;
-		tiles[end_y * rows + end_x] = 2;
+		tiles[end_y * cols + end_x] = 2;
 
 		path_finder.start_algorithm(tiles, cols, rows);
 
