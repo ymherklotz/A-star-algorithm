@@ -29,8 +29,7 @@ bool AStar::start_algorithm(int *curr_graph, const unsigned int& width, const un
 	graph_height = height;
 	graph = curr_graph;
 
-	std::vector<Node> tmp;
-	closed_set = tmp;
+	closed_set.clear();
 	open_set.clear();
 
 	for(unsigned int i = 0; i < graph_width * graph_height; ++i)
@@ -38,6 +37,7 @@ bool AStar::start_algorithm(int *curr_graph, const unsigned int& width, const un
 			start_node.x = i % graph_width;
 			start_node.y = i / graph_width;
 			start_node.g_score = 0;
+			start_node.previous_node = NULL;
 			calc_heuristic(start_node);
 			calc_f(start_node);
 		} else if(graph[i] == 2) {

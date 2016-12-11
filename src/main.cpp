@@ -29,13 +29,13 @@ int main(int argc, char *argv[]) {
 
 	// set the constants int the file that define the grid to be displayed.
 	// for the mac
-	//const int tile_size = 21;
-	//const int rows = 41;
-	//const int cols = 34;
+	const int tile_size = 21;
+	const int rows = 41;
+	const int cols = 34;
 
-	const int tile_size = 25;
-	const int rows = 50;
-	const int cols = 100;
+	// const int tile_size = 25;
+	// const int rows = 50;
+	// const int cols = 100;
 
 	// print out that information.
 	cout << "tile size: " << tile_size << "px, rows: " << rows << ", cols: " << cols << endl;
@@ -47,8 +47,8 @@ int main(int argc, char *argv[]) {
 	for(int i = 0; i < cols * rows; ++i)
 		tiles[i] = 0;
 
-	tiles[210] = 3;
-	tiles[4029] = 2;
+	tiles[74] = 3;
+	tiles[41 * 34 - 85] = 2;
 
 	// create a tile map that will be used to display the array.
 	TileMap map;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 			if(event.type == sf::Event::Closed)
 				window.close();
 
-		// check if mouse buttons are pressed.
+		// check if mouse buttons are prgetSizeessed.
 		if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			// get the position of the mouse.
 			sf::Vector2i mouse = sf::Mouse::getPosition(window);

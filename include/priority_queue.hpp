@@ -85,7 +85,8 @@ T PriorityQueue<T>::pop() {
 	else if(size == capacity / 2)
 		resize_queue(0.5);
 
-	return remove_queue(0);
+	T tmp = remove_queue(0);
+	return tmp;
 }
 
 template<typename T>
