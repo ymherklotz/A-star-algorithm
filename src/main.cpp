@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
 	// create a render window of size 800x600 with a title.
 	sf::RenderWindow window(sf::VideoMode(2500, 1250), "A* Algorithm");
-	// window.setFramerateLimit(2);
+	// window.setFramerateLimit(1);
 
 	// print out the window size.
 	cout << "window size: " << window.getSize().x << ", " << window.getSize().y << endl;
@@ -39,11 +39,11 @@ int main(int argc, char *argv[]) {
 	const int rows = 50;
 	const int cols = 100;
 
-	const int start_x = 9;
-	const int start_y = 13;
+	int start_x = rand() % cols;
+	int start_y = rand() % rows;
 
-	const int end_x = 76;
-	const int end_y = 38;
+	int end_x = rand() % cols;
+	int end_y = rand() % rows;
 
 	// print out that information.
 	cout << "tile size: " << tile_size << "px, rows: " << rows << ", cols: " << cols << endl;
@@ -90,13 +90,22 @@ int main(int argc, char *argv[]) {
 		// for(int i = 0; i < cols * rows; ++i)
 		//  tiles[i] = 0;
 		//
-		// for(int i = 0; i < 600; ++i)
+		// for(int i = 0; i < 1500; ++i)
 		//  tiles[rand() % (cols * rows)] = 1;
+
+		// start_x = rand() % cols;
+		// start_y = rand() % rows;
+		//
+		// end_x = rand() % cols;
+		// end_y = rand() % rows;
 
 		tiles[start_y * cols + start_x] = 3;
 		tiles[end_y * cols + end_x] = 2;
 
 		path_finder.start_algorithm(tiles, cols, rows);
+
+		tiles[start_y * cols + start_x] = 3;
+		tiles[end_y * cols + end_x] = 2;
 
 		// update tile map with the correct array.
 		map.load("res/GridTileTexture5.png", sf::Vector2f(200, 200), sf::Vector2f(tile_size, tile_size), tiles, cols, rows);
