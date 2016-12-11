@@ -9,7 +9,7 @@
 
 // defines the number of nodes one can go to
 // we don't need this as we will have the queues
-#define NEIGHBOUR_NUM 4
+#define NEIGHBOUR_NUM 8
 
 // TODO add constructors and functions to calculate heuristics etc..
 class AStar {
@@ -28,6 +28,8 @@ private:
 	int graph_width;
 	int graph_height;
 	int path_length;
+
+	int count;
 
 	Node start_node, end_node;
 

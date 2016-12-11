@@ -3,7 +3,7 @@
 #include <cmath>
 #include <iostream>
 
-AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(1) {
+AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(10), count(0) {
 }
 
 AStar::AStar(int *curr_graph, const unsigned int& width, const unsigned int& height) : graph(curr_graph), graph_width(width), graph_height(height), path_length(1) {
@@ -92,15 +92,35 @@ Node AStar::get_neighbour(Node& n_in, const int& neighbour_num) {
 	if(neighbour_num == 0 && n_in.y > 0) {
 		n.x = n_in.x;
 		n.y = n_in.y - 1;
+		path_length = 10;
 	} else if(neighbour_num == 1 && n_in.x < graph_width - 1) {
 		n.x = n_in.x + 1;
 		n.y = n_in.y;
+		path_length = 10;
 	} else if(neighbour_num == 2 && n_in.y < graph_height - 1) {
 		n.x = n_in.x;
 		n.y = n_in.y + 1;
+		path_length = 10;
 	} else if(neighbour_num == 3 && n_in.x > 0) {
 		n.x = n_in.x - 1;
 		n.y = n_in.y;
+		path_length = 10;
+	} else if(neighbour_num == 4 && n_in.y > 0 && n_in.x < graph_height - 1) {
+		n.x = n_in.x + 1;
+		n.y = n_in.y - 1;
+		path_length = 14;
+	} else if(neighbour_num == 5 && n_in.y < graph_height - 1 && n_in.x < graph_width - 1) {
+		n.x = n_in.x + 1;
+		n.y = n_in.y + 1;
+		path_length = 14;
+	} else if(neighbour_num == 6 && n_in.y < graph_height - 1 && n_in.x > 0) {
+		n.x = n_in.x - 1;
+		n.y = n_in.y + 1;
+		path_length = 14;
+	} else if(neighbour_num == 7 && n_in.y > 0 && n_in.x > 0) {
+		n.x = n_in.x - 1;
+		n.y = n_in.y - 1;
+		path_length = 14;
 	}
 
 	calc_heuristic(n);
@@ -109,7 +129,8 @@ Node AStar::get_neighbour(Node& n_in, const int& neighbour_num) {
 }
 
 void AStar::calc_heuristic(Node& n) {
-	n.h_score = path_length * (abs(n.x - end_node.x) + abs(n.y - end_node.y));
+	n.h_score = sqrt(pow(10 * (end_node.x - n.x), 2) + pow(10 * (end_node.y - n.y), 2)) * (1 + 0.01 * count);
+	++count;
 }
 
 void AStar::calc_f(Node& n) {
