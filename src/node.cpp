@@ -1,6 +1,6 @@
 #include "node.hpp"
 
-Node::Node() : previous_node(NULL), f_score(-1), g_score(0), h_score(-1), x(-1), y(-1) {
+Node::Node() : x_prev(-1), y_prev(-1), f_score(-1), g_score(0), h_score(-1), x(-1), y(-1) {
 }
 
 bool operator<(const Node& n1, const Node& n2) {

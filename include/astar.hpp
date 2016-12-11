@@ -41,6 +41,8 @@ private:
 	bool check_item_vec(const Node& n);
 	int get_index_vec(const Node& n);
 	void remove_from_vec(const Node& n);
+
+	Node find_node(const unsigned int& x, const unsigned int& y);
 };
 
 #endif // ASTAR_HPP
