@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 
 	// create a render window of size 800x600 with a title.
 	sf::RenderWindow window(sf::VideoMode(2500, 1250), "A* Algorithm");
-	window.setFramerateLimit(2);
+	// window.setFramerateLimit(2);
 
 	// print out the window size.
 	cout << "window size: " << window.getSize().x << ", " << window.getSize().y << endl;
@@ -51,6 +51,9 @@ int main(int argc, char *argv[]) {
 
 	// create the array of the right size using the constants.
 	int tiles[cols * rows];
+
+	for(int i = 0; i < cols * rows; ++i)
+		tiles[i] = 0;
 
 	// create a tile map that will be used to display the array.
 	TileMap map;
@@ -81,15 +84,15 @@ int main(int argc, char *argv[]) {
 			tiles[(int)(mouse.x / tile_size) + cols * (int)(mouse.y / tile_size)] = 0;
 		}
 
-		// for(int i = 0; i < cols * rows; ++i)
-		//  if(tiles[i] != 1)
-		//      tiles[i] = 0;
-
 		for(int i = 0; i < cols * rows; ++i)
-			tiles[i] = 0;
+			if(tiles[i] != 1)
+				tiles[i] = 0;
 
-		for(int i = 0; i < 600; ++i)
-			tiles[rand() % (cols * rows)] = 1;
+		// for(int i = 0; i < cols * rows; ++i)
+		//  tiles[i] = 0;
+		//
+		// for(int i = 0; i < 600; ++i)
+		//  tiles[rand() % (cols * rows)] = 1;
 
 		tiles[start_y * cols + start_x] = 3;
 		tiles[end_y * cols + end_x] = 2;
