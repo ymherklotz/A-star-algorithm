@@ -1,8 +1,6 @@
 #ifndef PRIORITY_QUEUE_HPP
 #define PRIORITY_QUEUE_HPP
 
-#include <iostream>
-
 template<typename T>
 class PriorityQueue {
 public:

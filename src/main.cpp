@@ -13,7 +13,6 @@
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
-#include <cstdlib>
 
 using namespace std;
 

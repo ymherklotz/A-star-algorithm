@@ -1,7 +1,6 @@
 #include "astar.hpp"
 
 #include <cmath>
-#include <iostream>
 
 AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(10), count(0) {
 }
