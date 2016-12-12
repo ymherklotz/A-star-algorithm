@@ -31,7 +31,7 @@ private:
 	// path length to get to that node.
 	int g_score;
 	// heuristic length to destination.
-	double h_score;
+	int h_score;
 
 	// the x and y coordinates of the node in the grid
 	int x, y;

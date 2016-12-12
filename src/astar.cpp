@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(10), count(0) {
+AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(10) {
 }
 
 AStar::AStar(int *curr_graph, const unsigned int& width, const unsigned int& height) : graph(curr_graph), graph_width(width), graph_height(height), path_length(1) {
@@ -66,6 +66,7 @@ bool AStar::start_algorithm() {
 						remove_from_vec(n);
 				if(!open_set.check_item(n) && !check_item_vec(n)) {
 					n.g_score = cost;
+					calc_heuristic(n);
 					calc_f(n);
 					n.x_prev = current.x;
 					n.y_prev = current.y;
@@ -122,14 +123,11 @@ Node AStar::get_neighbour(Node& n_in, const int& neighbour_num) {
 		path_length = 14;
 	}
 
-	calc_heuristic(n);
-
 	return n;
 }
 
 void AStar::calc_heuristic(Node& n) {
-	n.h_score = sqrt(pow(10 * (end_node.x - n.x), 2) + pow(10 * (end_node.y - n.y), 2)) * (1 + 0.01 * count);
-	++count;
+	n.h_score = pow(10 * (end_node.x - n.x), 2) + pow(10 * (end_node.y - n.y), 2);
 }
 
 void AStar::calc_f(Node& n) {

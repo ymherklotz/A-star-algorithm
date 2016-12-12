@@ -29,8 +29,6 @@ private:
 	int graph_height;
 	int path_length;
 
-	int count;
-
 	Node start_node, end_node;
 
 	bool start_algorithm();
