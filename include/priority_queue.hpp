@@ -2,6 +2,16 @@
 #define PRIORITY_QUEUE_HPP
 
 template<typename T>
+struct queue_node {
+	queue_node *next_node;
+	T			item;
+
+	queue_node(T& i) {
+		item = i;
+	}
+};
+
+template<typename T>
 class PriorityQueue {
 public:
 	// creates a new object of type T
@@ -10,179 +20,65 @@ public:
 	~PriorityQueue();
 
 	// pushes element to the queue which is sorted by smallest element first
-	void push(const T& element);
+	void push(T& element);
 
 	// pops the first element from the queue and removes it while returning
 	// it
-	T pop();
-
-	// returns the lowest priority item
-	T get_first();
-
-	// check if item is in queue
-	bool check_item(const T& item);
-
-	// gets index of item
-	int get_index(const T& item);
-
-	// removes item from queue
-	void remove_item(const T& item);
-
-	void clear();
-
-	// return element at position;
-	const T& at(const unsigned int& i) const;
-
-	const T& operator[](const unsigned int& i) const;
+	T& pop();
 private:
-	// size of the current queue
-	unsigned int size;
-	// capacity of the queue, this will just increase in multiples of 2
-	unsigned int capacity;
-	// array that will represent the priority queue
-	T *priority_array;
+	queue_node<T> *head_list;
 
-	// resize the queue's array accordingly by some factor
-	void resize_queue(double factor);
-
-	// insert and element into the queue
-	// this assumes that the capacity is larger than the size
-	void insert_queue(const T& element, const unsigned int& loc);
-
-	// removes an element from the queue
-	T remove_queue(const unsigned int& loc);
+	void delete_queue_node(queue_node<T> *node);
 };
 
 template<typename T>
-PriorityQueue<T>::PriorityQueue() : size(0), capacity(1) {
-	priority_array = new T;
+PriorityQueue<T>::PriorityQueue() : head_list(nullptr) {
 }
 
 template<typename T>
 PriorityQueue<T>::~PriorityQueue() {
-	delete[] priority_array;
+	delete_queue_node(head_list);
 }
 
 template<typename T>
-void PriorityQueue<T>::push(const T& element) {
-	unsigned int insert_loc = 0;
+void PriorityQueue<T>::push(T& element) {
+	queue_node<T> *el_node = new queue_node<T>(element);
+	queue_node<T> *tmp_head = head_list;
+	queue_node<T> *prev_head = head_list;
 
-	if(size == capacity)
-		resize_queue(2);
+	while(tmp_head != nullptr && element > tmp_head->item) {
+		prev_head = tmp_head;
+		tmp_head = tmp_head->next_node;
+	}
 
-	while(insert_loc < size && element > priority_array[insert_loc])
-		++insert_loc;
+	// el_node->next_node = tmp_head;
+	// prev_head->next_node = el_node;
 
-	insert_queue(element, insert_loc);
+	head_list = el_node;
 }
 
 template<typename T>
-T PriorityQueue<T>::pop() {
-	if(!size)
-		throw "Priority Queue is empty, no item to pop";
-	else if(size == capacity / 2)
-		resize_queue(0.5);
+T& PriorityQueue<T>::pop() {
+	T *element = &head_list->item;
 
-	T tmp = remove_queue(0);
-	return tmp;
+	if(head_list->next_node != nullptr) {
+		queue_node<T> *tmp_node = head_list;
+		head_list = head_list->next_node;
+		delete tmp_node;
+	} else {
+		delete head_list;
+		head_list = nullptr;
+	}
+
+	return *element;
 }
 
 template<typename T>
-T PriorityQueue<T>::get_first() {
-	return priority_array[0];
-}
-
-template<typename T>
-bool PriorityQueue<T>::check_item(const T& item) {
-	for(unsigned int i = 0; i < size; ++i)
-		if(priority_array[i] == item)
-			return true;
-	return false;
-}
-
-template<typename T>
-int PriorityQueue<T>::get_index(const T& item) {
-	for(unsigned int i = 0; i < size; ++i)
-		if(priority_array[i] == item)
-			return i;
-	return -1;
-}
-
-template<typename T>
-void PriorityQueue<T>::remove_item(const T& item) {
-	remove_queue(get_index(item));
-}
-
-template<typename T>
-void PriorityQueue<T>::clear() {
-	T *tmp = new T;
-
-	size = 0;
-	capacity = 1;
-	delete[] priority_array;
-	priority_array = tmp;
-}
-
-template<typename T>
-const T& PriorityQueue<T>::at(const unsigned int& i) const {
-	return priority_array[i];
-}
-
-template<typename T>
-const T& PriorityQueue<T>::operator[](const unsigned int& i) const {
-	return priority_array[i];
-}
-
-template<typename T>
-void PriorityQueue<T>::resize_queue(double factor) {
-	capacity = (double)capacity * factor;
-	T *tmp_array = new T[capacity];
-
-	for(unsigned int i = 0; i < size; ++i)
-		tmp_array[i] = priority_array[i];
-
-	delete[] priority_array;
-	priority_array = tmp_array;
-}
-
-template<typename T>
-void PriorityQueue<T>::insert_queue(const T& element, const unsigned int& loc) {
-	T *tmp_array = new T[capacity];
-
-	for(unsigned int i = 0; i < size + 1; ++i)
-		if(i == loc)
-			tmp_array[i] = element;
-		else if(i < loc)
-			tmp_array[i] = priority_array[i];
-		else
-			tmp_array[i] = priority_array[i - 1];
-
-	size++;
-
-	delete[] priority_array;
-	priority_array = tmp_array;
-}
-
-template<typename T>
-T PriorityQueue<T>::remove_queue(const unsigned int& loc) {
-	T element;
-
-	T *tmp_array = new T[capacity];
-
-	for(unsigned int i = 0; i < size; ++i)
-		if(i == loc)
-			element = priority_array[i];
-		else if(i < loc)
-			tmp_array[i] = priority_array[i];
-		else
-			tmp_array[i - 1] = priority_array[i];
-
-	size--;
-
-	delete[] priority_array;
-	priority_array = tmp_array;
-
-	return element;
+void PriorityQueue<T>::delete_queue_node(queue_node<T> *node) {
+	if(node != nullptr) {
+		delete_queue_node(node->next_node);
+		delete node;
+	}
 }
 
 #endif // PRIORITY_QUEUE_HPP
