@@ -5,20 +5,19 @@
 AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(10) {
 }
 
-AStar::AStar(int *curr_graph, const unsigned int& width, const unsigned int& height) : graph(curr_graph), graph_width(width), graph_height(height), path_length(1) {
+AStar::AStar(int *curr_graph, const unsigned int& width, const unsigned int& height) : graph(curr_graph), graph_width(width), graph_height(height), path_length(10) {
 	for(unsigned int i = 0; i < graph_width * graph_height; ++i)
 		if(graph[i] == 3) {
 			start_node.x = i % graph_width;
 			start_node.y = i / graph_width;
 			start_node.g_score = 0;
 			calc_heuristic(start_node);
-			calc_f(start_node);
+			start_node.f_score = start_node.g_score + start_node.f_score;
 		} else if(graph[i] == 2) {
 			end_node.x = i % graph_width;
 			end_node.y = i / graph_width;
 		}
 	open_set.push(start_node);
-	start_algorithm();
 }
 
 bool AStar::start_algorithm(int *curr_graph, const unsigned int& width, const unsigned int& height) {
@@ -35,9 +34,9 @@ bool AStar::start_algorithm(int *curr_graph, const unsigned int& width, const un
 			start_node.y = i / graph_width;
 			start_node.g_score = 0;
 			calc_heuristic(start_node);
+			start_node.f_score = start_node.g_score + start_node.h_score;
 			start_node.x_prev = -1;
 			start_node.y_prev = -1;
-			calc_f(start_node);
 		} else if(graph[i] == 2) {
 			end_node.x = i % graph_width;
 			end_node.y = i / graph_width;
@@ -67,7 +66,7 @@ bool AStar::start_algorithm() {
 				if(!open_set.check_item(n) && !check_item_vec(n)) {
 					n.g_score = cost;
 					calc_heuristic(n);
-					calc_f(n);
+					n.f_score = n.g_score + n.h_score;
 					n.x_prev = current.x;
 					n.y_prev = current.y;
 					open_set.push(n);
@@ -127,11 +126,7 @@ Node AStar::get_neighbour(Node& n_in, const int& neighbour_num) {
 }
 
 void AStar::calc_heuristic(Node& n) {
-	n.h_score = pow(10 * (end_node.x - n.x), 2) + pow(10 * (end_node.y - n.y), 2);
-}
-
-void AStar::calc_f(Node& n) {
-	n.f_score = n.g_score + n.h_score;
+	n.h_score = 10 * sqrt(((end_node.x - n.x) * (end_node.x - n.x) + (end_node.y - n.y) * (end_node.y - n.y)));
 }
 
 bool AStar::check_item_vec(const Node& n) {

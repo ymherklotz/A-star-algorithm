@@ -31,13 +31,13 @@ int main(int argc, char *argv[]) {
 
 	// set the constants int the file that define the grid to be displayed.
 	// for the mac
-	// const int tile_size = 21;
-	// const int rows = 41;
-	// const int cols = 34;
+	const int tile_size = 21;
+	const int rows = 41;
+	const int cols = 34;
 
-	const int tile_size = 25;
-	const int rows = 50;
-	const int cols = 100;
+	// const int tile_size = 25;
+	// const int rows = 50;
+	// const int cols = 100;
 
 	int start_x = rand() % cols;
 	int start_y = rand() % rows;

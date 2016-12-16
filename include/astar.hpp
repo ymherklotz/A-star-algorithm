@@ -36,7 +36,6 @@ private:
 	Node get_neighbour(Node& n_in, const int& neighbour_num);
 
 	void calc_heuristic(Node& n);
-	void calc_f(Node& n);
 
 	bool check_item_vec(const Node& n);
 	int get_index_vec(const Node& n);

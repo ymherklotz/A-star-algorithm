@@ -27,11 +27,11 @@ private:
 
 	// score that is used to compare to other nodes to see if the other path is
 	// more efficient.
-	int f_score;
+	double f_score;
 	// path length to get to that node.
-	int g_score;
+	double g_score;
 	// heuristic length to destination.
-	int h_score;
+	double h_score;
 
 	// the x and y coordinates of the node in the grid
 	int x, y;
