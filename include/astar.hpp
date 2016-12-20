@@ -15,7 +15,6 @@
 class AStar {
 public:
 	AStar();
-	AStar(int *curr_graph, const unsigned int& width, const unsigned int& height);
 
 	bool start_algorithm(int *curr_graph, const unsigned int& width, const unsigned int& height);
 
@@ -25,8 +24,8 @@ private:
 	std::vector<Node> closed_set;
 
 	int *graph;
-	int graph_width;
-	int graph_height;
+	unsigned int graph_width;
+	unsigned int graph_height;
 	int path_length;
 
 	Node start_node, end_node;

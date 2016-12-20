@@ -5,21 +5,6 @@
 AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(10) {
 }
 
-AStar::AStar(int *curr_graph, const unsigned int& width, const unsigned int& height) : graph(curr_graph), graph_width(width), graph_height(height), path_length(10) {
-	for(unsigned int i = 0; i < graph_width * graph_height; ++i)
-		if(graph[i] == 3) {
-			start_node.x = i % graph_width;
-			start_node.y = i / graph_width;
-			start_node.g_score = 0;
-			calc_heuristic(start_node);
-			start_node.f_score = start_node.g_score + start_node.f_score;
-		} else if(graph[i] == 2) {
-			end_node.x = i % graph_width;
-			end_node.y = i / graph_width;
-		}
-	open_set.push(start_node);
-}
-
 bool AStar::start_algorithm(int *curr_graph, const unsigned int& width, const unsigned int& height) {
 	graph_width = width;
 	graph_height = height;
