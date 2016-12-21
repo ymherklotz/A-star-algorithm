@@ -2,7 +2,8 @@ CC := g++ # this is the main compiler
 # CC := clange --analyze # and comment out the linker last line
 SRCDIR := src
 BUILDDIR := build
-TARGET := bin/main
+TARGETDIR := bin
+TARGET := main
 
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
@@ -13,8 +14,9 @@ LIB := -lsfml-graphics -lsfml-system -lsfml-window
 INC := -Iinclude
 
 $(TARGET): $(OBJECTS)
+	@mkdir -p $(TARGETDIR)
 	@echo " Linking..."
-	@echo " $(CC) $^ -o $(TARGET) $(LIBDIR) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIBDIR) $(LIB)
+	@echo " $(CC) $^ -o $(TARGET) $(LIBDIR) $(LIB)"; $(CC) $^ -o $(TARGETDIR)/$(TARGET) $(LIBDIR) $(LIB)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
@@ -26,10 +28,12 @@ clean:
 
 # Tests
 tester:
+	@mkdir -p test
 	@echo " $(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester"; $(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
 
 # Spikes
 ticket:
+	@mkdir -p spikes
 	@echo " $(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket"; $(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
 
 .PHONY: clean
