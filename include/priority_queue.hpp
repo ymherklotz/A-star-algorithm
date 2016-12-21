@@ -17,7 +17,7 @@ public:
 	T pop();
 
 	// returns the lowest priority item
-	T get_first();
+	T first();
 
 	// check if item is in queue
 	bool check_item(const T& item);
@@ -88,7 +88,7 @@ T PriorityQueue<T>::pop() {
 }
 
 template<typename T>
-T PriorityQueue<T>::get_first() {
+T PriorityQueue<T>::first() {
 	return priority_array[0];
 }
 

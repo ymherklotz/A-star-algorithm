@@ -20,7 +20,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& out, const Node& n);
 private:
 	// pointer to previous node so that I can backtrack without using recursion.
-	int x_prev, y_prev;
+	int prev_index;
 	// pointers to the next nodes of which there are 4 in a grid.
 	// We do not need this as we are implementing a priority queue;
 	//Node *next_nodes[NEIGHBOUR_NUM];
@@ -34,7 +34,7 @@ private:
 	double h_score;
 
 	// the x and y coordinates of the node in the grid
-	int x, y;
+	int index;
 
 	// see if node has been visited.
 	// We don't need this as we will have an open and a closed set
