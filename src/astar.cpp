@@ -1,146 +1,154 @@
 #include "astar.hpp"
 
 #include <cmath>
+#include <iostream>
 
-AStar::AStar() : graph(NULL), graph_width(0), graph_height(0), path_length(10) {
+AStar::AStar(int *graph_in, const unsigned int& width, const unsigned int height) : graph(graph_in), graph_width(width), graph_height(height), graph_size(width * height), path_length(PATHLENGTH) {
+	closed_set = new Node[graph_size];
+	Node tmp;
+
+	for(unsigned int i = 0; i < graph_size; ++i)
+		closed_set[i] = tmp;
+
+	find_start_end();
+	open_set.clear();
+}
+
+AStar::AStar(const AStar& other) : open_set(other.open_set), closed_set(other.closed_set), graph(other.graph), graph_width(other.graph_width), graph_height(other.graph_height), graph_size(other.graph_size), path_length(PATHLENGTH), start_node(other.start_node), end_node(other.end_node) {
+}
+
+AStar::~AStar() {
+	delete[] closed_set;
+}
+
+AStar& AStar::operator=(const AStar& other) {
+	open_set = other.open_set;
+	closed_set = other.closed_set;
+	graph = other.graph;
+	graph_width = other.graph_width;
+	graph_height = other.graph_height;
+	graph_size = other.graph_size;
+	path_length = PATHLENGTH;
+	start_node = other.start_node;
+	end_node = other.end_node;
+	return *this;
 }
 
 bool AStar::start_algorithm(int *curr_graph, const unsigned int& width, const unsigned int& height) {
 	graph_width = width;
 	graph_height = height;
+	graph_size = width * height;
+
 	graph = curr_graph;
 
-	closed_set.clear();
-	open_set.clear();
+	if(find_start_end())
+		return start_algorithm();
 
-	for(unsigned int i = 0; i < graph_width * graph_height; ++i)
-		if(graph[i] == 3) {
-			start_node.x = i % graph_width;
-			start_node.y = i / graph_width;
-			start_node.g_score = 0;
-			calc_heuristic(start_node);
-			start_node.f_score = start_node.g_score + start_node.h_score;
-			start_node.x_prev = -1;
-			start_node.y_prev = -1;
-		} else if(graph[i] == 2) {
-			end_node.x = i % graph_width;
-			end_node.y = i / graph_width;
-		}
-	open_set.push(start_node);
-	return start_algorithm();
+	return false;
 }
 
 bool AStar::start_algorithm() {
-	while(open_set.get_first() != end_node) {
+	open_set.clear();
+	if(!find_start_end()) {
+		throw "Couldn't find start or end";
+		return false;
+	}
+	reset_closed_set();
+	open_set.push(start_node);
+	while(open_set.first() != end_node) {
 		Node current = open_set.pop();
-		closed_set.push_back(current);
+		closed_set[current.index] = current;
 		for(unsigned int i = 0; i < NEIGHBOUR_NUM; ++i) {
 			Node n = get_neighbour(current, i);
-
-			if(graph[n.y * graph_width + n.x] != 1 && n.x != -1 && n.y != -1) {
-				graph[n.x + n.y * graph_width] = 9;
-				graph[start_node.x + start_node.y * graph_width] = 3;
-				graph[end_node.x + end_node.y * graph_width] = 2;
+			if(n.index != -1 && graph[n.index] != 1) {
+				graph[n.index] = 9;
 				int cost = current.g_score + path_length;
 				if(open_set.check_item(n))
 					if(cost < open_set[open_set.get_index(n)].g_score)
 						open_set.remove_item(n);
-				if(check_item_vec(n))
-					if(cost < closed_set[get_index_vec(n)].g_score)
-						remove_from_vec(n);
-				if(!open_set.check_item(n) && !check_item_vec(n)) {
+				if(closed_set[n.index] == n) {
+					if(cost < closed_set[n.index].g_score) {
+						Node tmp;
+						closed_set[n.index] = tmp;
+					}
+				}
+				if(!open_set.check_item(n) && (closed_set[n.index] != n)) {
 					n.g_score = cost;
 					calc_heuristic(n);
 					n.f_score = n.g_score + n.h_score;
-					n.x_prev = current.x;
-					n.y_prev = current.y;
+					n.prev_index = current.index;
 					open_set.push(n);
 				}
 			}
 		}
 	}
-	recreate_path(open_set.get_first());
+	recreate_path(open_set.first());
 	return true;
 }
 
 void AStar::recreate_path(Node n) {
-	while(n.x != -1 && n.y != -1) {
-		graph[n.x + n.y * graph_width] = 8;
-		n = find_node(n.x_prev, n.y_prev);
+	while(n != start_node) {
+		graph[n.index] = 8;
+		n = closed_set[n.prev_index];
 	}
+}
+
+bool AStar::find_start_end() {
+	for(unsigned int i = 0; i < graph_size; ++i)
+		if(graph[i] == 3) {
+			start_node.index = i;
+			start_node.g_score = 0;
+			calc_heuristic(start_node);
+			start_node.f_score = start_node.g_score + start_node.h_score;
+			start_node.prev_index = -1;
+		} else if(graph[i] == 2) {
+			end_node.index = i;
+		}
+	Node n;
+	return !(start_node == n || end_node == n);
 }
 
 Node AStar::get_neighbour(Node& n_in, const int& neighbour_num) {
 	Node n;
 
-	if(neighbour_num == 0 && n_in.y > 0) {
-		n.x = n_in.x;
-		n.y = n_in.y - 1;
-		path_length = 10;
-	} else if(neighbour_num == 1 && n_in.x < graph_width - 1) {
-		n.x = n_in.x + 1;
-		n.y = n_in.y;
-		path_length = 10;
-	} else if(neighbour_num == 2 && n_in.y < graph_height - 1) {
-		n.x = n_in.x;
-		n.y = n_in.y + 1;
-		path_length = 10;
-	} else if(neighbour_num == 3 && n_in.x > 0) {
-		n.x = n_in.x - 1;
-		n.y = n_in.y;
-		path_length = 10;
-	} else if(neighbour_num == 4 && n_in.y > 0 && n_in.x < graph_height - 1) {
-		n.x = n_in.x + 1;
-		n.y = n_in.y - 1;
-		path_length = 14;
-	} else if(neighbour_num == 5 && n_in.y < graph_height - 1 && n_in.x < graph_width - 1) {
-		n.x = n_in.x + 1;
-		n.y = n_in.y + 1;
-		path_length = 14;
-	} else if(neighbour_num == 6 && n_in.y < graph_height - 1 && n_in.x > 0) {
-		n.x = n_in.x - 1;
-		n.y = n_in.y + 1;
-		path_length = 14;
-	} else if(neighbour_num == 7 && n_in.y > 0 && n_in.x > 0) {
-		n.x = n_in.x - 1;
-		n.y = n_in.y - 1;
-		path_length = 14;
+	if(neighbour_num == 0 && n_in.index / graph_width > 0) {
+		n.index = n_in.index - graph_width;
+		path_length = PATHLENGTH;
+	} else if(neighbour_num == 1 && n_in.index % graph_width < graph_width - 1) {
+		n.index = n_in.index + 1;
+		path_length = PATHLENGTH;
+	} else if(neighbour_num == 2 && n_in.index / graph_width < graph_height - 1) {
+		n.index = n_in.index + graph_width;
+		path_length = PATHLENGTH;
+	} else if(neighbour_num == 3 && n_in.index % graph_width > 0) {
+		n.index = n_in.index - 1;
+		path_length = PATHLENGTH;
+	} else if(neighbour_num == 4 && n_in.index / graph_width > 0 && n_in.index % graph_width < graph_height - 1) {
+		n.index = n_in.index - graph_width + 1;
+		path_length = DIAGLENGTH;
+	} else if(neighbour_num == 5 && n_in.index / graph_width < graph_height - 1 && n_in.index % graph_width < graph_width - 1) {
+		n.index = n_in.index + graph_width + 1;
+		path_length = DIAGLENGTH;
+	} else if(neighbour_num == 6 && n_in.index / graph_width < graph_height - 1 && n_in.index % graph_width > 0) {
+		n.index = n_in.index - graph_width - 1;
+		path_length = DIAGLENGTH;
+	} else if(neighbour_num == 7 && n_in.index / graph_width > 0 && n_in.index % graph_width > 0) {
+		n.index = n_in.index + graph_width - 1;
+		path_length = DIAGLENGTH;
 	}
 
 	return n;
 }
 
+void AStar::reset_closed_set() {
+	delete[] closed_set;
+	closed_set = new Node[graph_size];
+	Node tmp;
+
+	for(unsigned int i = 0; i < graph_size; ++i)
+		closed_set[i] = tmp;
+}
+
 void AStar::calc_heuristic(Node& n) {
-	n.h_score = 10 * sqrt(((end_node.x - n.x) * (end_node.x - n.x) + (end_node.y - n.y) * (end_node.y - n.y)));
-}
-
-bool AStar::check_item_vec(const Node& n) {
-	for(unsigned int i = 0; i < closed_set.size(); ++i)
-		if(closed_set[i] == n)
-			return true;
-	return false;
-}
-
-int AStar::get_index_vec(const Node& n) {
-	for(unsigned int i = 0; i < closed_set.size(); ++i)
-		if(closed_set[i] == n)
-			return i;
-	return -1;
-}
-
-void AStar::remove_from_vec(const Node& n) {
-	std::vector<Node> tmp_set;
-	for(unsigned int i = 0; i < closed_set.size(); ++i)
-		if(closed_set[i] != n)
-			tmp_set.push_back(closed_set[i]);
-	closed_set = tmp_set;
-}
-
-Node AStar::find_node(const unsigned int& x, const unsigned int& y) {
-	Node n;
-
-	for(unsigned int i = 0; i < closed_set.size(); ++i)
-		if(closed_set[i].x == x && closed_set[i].y == y)
-			n = closed_set[i];
-	return n;
+	n.h_score = PATHLENGTH * sqrt(((end_node.index % graph_width - n.index % graph_width) * (end_node.index % graph_width - n.index % graph_width) + (end_node.index / graph_width - n.index / graph_width) * (end_node.index / graph_width - n.index / graph_width)));
 }

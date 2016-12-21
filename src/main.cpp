@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 	// create a tile map that will be used to display the array.
 	TileMap map;
 
-	AStar path_finder;
+	AStar path_finder(tiles, cols, rows);
 
 	// event loop that runs the window.
 	while(window.isOpen()) {
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 		tiles[start_y * cols + start_x] = 3;
 		tiles[end_y * cols + end_x] = 2;
 
-		path_finder.start_algorithm(tiles, cols, rows);
+		path_finder.start_algorithm();
 
 		tiles[start_y * cols + start_x] = 3;
 		tiles[end_y * cols + end_x] = 2;
