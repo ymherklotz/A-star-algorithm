@@ -49,7 +49,11 @@ bool AStar::start_algorithm(int *curr_graph, const unsigned int& width, const un
 
 bool AStar::start_algorithm() {
 	open_set.clear();
-	find_start_end();
+	if(!find_start_end()) {
+		throw "Couldn't find start or end";
+		return false;
+	}
+	reset_closed_set();
 	open_set.push(start_node);
 	while(open_set.first() != end_node) {
 		Node current = open_set.pop();
@@ -100,7 +104,6 @@ bool AStar::find_start_end() {
 		} else if(graph[i] == 2) {
 			end_node.index = i;
 		}
-	open_set.push(start_node);
 	Node n;
 	return !(start_node == n || end_node == n);
 }
@@ -109,28 +112,28 @@ Node AStar::get_neighbour(Node& n_in, const int& neighbour_num) {
 	Node n;
 
 	if(neighbour_num == 0 && n_in.index / graph_width > 0) {
-		n.index -= graph_width;
+		n.index = n_in.index - graph_width;
 		path_length = PATHLENGTH;
 	} else if(neighbour_num == 1 && n_in.index % graph_width < graph_width - 1) {
-		n.index += 1;
+		n.index = n_in.index + 1;
 		path_length = PATHLENGTH;
 	} else if(neighbour_num == 2 && n_in.index / graph_width < graph_height - 1) {
-		n.index += graph_width;
+		n.index = n_in.index + graph_width;
 		path_length = PATHLENGTH;
 	} else if(neighbour_num == 3 && n_in.index % graph_width > 0) {
-		n.index -= 1;
+		n.index = n_in.index - 1;
 		path_length = PATHLENGTH;
 	} else if(neighbour_num == 4 && n_in.index / graph_width > 0 && n_in.index % graph_width < graph_height - 1) {
-		n.index -= graph_width + 1;
+		n.index = n_in.index - graph_width + 1;
 		path_length = DIAGLENGTH;
 	} else if(neighbour_num == 5 && n_in.index / graph_width < graph_height - 1 && n_in.index % graph_width < graph_width - 1) {
-		n.index += graph_width + 1;
+		n.index = n_in.index + graph_width + 1;
 		path_length = DIAGLENGTH;
 	} else if(neighbour_num == 6 && n_in.index / graph_width < graph_height - 1 && n_in.index % graph_width > 0) {
-		n.index -= graph_width - 1;
+		n.index = n_in.index - graph_width - 1;
 		path_length = DIAGLENGTH;
 	} else if(neighbour_num == 7 && n_in.index / graph_width > 0 && n_in.index % graph_width > 0) {
-		n.index -= graph_width - 1;
+		n.index = n_in.index + graph_width - 1;
 		path_length = DIAGLENGTH;
 	}
 
