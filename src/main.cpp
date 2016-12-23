@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 			// set the tile colour to 1.
 			tiles[(int)(mouse.x / tile_size) + cols * (int)(mouse.y / tile_size)] = 1;
 
-			cout << (int)(mouse.y / tile_size) << " " << (int)(mouse.x / tile_size) << endl;
+			// cout << (int)(mouse.y / tile_size) << " " << (int)(mouse.x / tile_size) << endl;
 		} else if(sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 			sf::Vector2i mouse = sf::Mouse::getPosition(window);
 			// set the tile colour to 2.

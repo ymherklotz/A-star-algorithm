@@ -1,5 +1,5 @@
 CC := g++ # this is the main compiler
-# CC := clange --analyze # and comment out the linker last line
+#CC := clang --analyze # and comment out the linker last line
 SRCDIR := src
 BUILDDIR := build
 TARGETDIR := bin
