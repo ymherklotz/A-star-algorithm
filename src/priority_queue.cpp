@@ -1,5 +1,7 @@
 #include "priority_queue.hpp"
 
+#include <iostream>
+
 PriorityQueue::PriorityQueue() : size(0), capacity(1) {
 	priority_array = new Node;
 }

@@ -28,7 +28,7 @@ public:
 
 	void recreate_path(Node n);
 private:
-	PriorityQueue<Node> open_set;
+	PriorityQueue open_set;
 	Node *closed_set;
 
 	int *graph;
